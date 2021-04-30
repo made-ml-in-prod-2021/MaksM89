@@ -1,0 +1,21 @@
+input_dataset:
+    path: "data/heart.csv"
+    download_path: "https://raw.githubusercontent.com/rashida048/Datasets/master/Heart.csv"
+    features:
+        categorical_features:
+            - 'Sex'
+            - 'Fbs'
+            - 'RestECG'
+            - 'Thal'
+        numerical_features:
+            - 'Age'
+            - 'RestBP'
+    target_col: "AHD"
+output_model_path: "models/model1.pkl"
+metric_path: "models/metrics1.json"
+splitting_params:
+  val_size: 0.2
+  random_state: 42
+train_params:
+  model_type: "LogisticRegression"
+
