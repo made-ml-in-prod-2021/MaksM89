@@ -16,7 +16,7 @@ setup(
         "pandas==0.23.4",
         "dataclasses==0.8",
         "PyYAML==5.4.1",
-        "scikit_learn==0.24.2",s
+        "scikit_learn==0.24.2",
     ],
     license="MIT",
 )

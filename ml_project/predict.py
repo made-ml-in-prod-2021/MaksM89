@@ -34,12 +34,12 @@ def main():
     
 @app.route('/query')
 def inference_pipeline():
-    modelname = request.args.get('modelname')
+    modelname = os.path.join('models', request.args.get('modelname') + '.pkl')
     data = request.args.get('data')
     try:
-        model, transformer = deserialize_model(os.path.join('models', modelname + '.pkl'))
+        model, transformer = deserialize_model(modelname)
     except:
-        return f'Cannot load model {modelname}', 501
+        return f'Cannot load model "{modelname}"', 501
     app.logger.info(f'Model {modelname} loaded')
     # from pdb import set_trace; set_trace()
     try:
@@ -65,10 +65,11 @@ def inference_pipeline():
 @click.argument("data")
 def inference_pipeline_command(modelname: str, data: str):
     # from pdb import set_trace; set_trace()
+    path = os.path.join('ml_project/models', modelname + '.pkl')
     try:
-        model, transformer = deserialize_model(os.path.join('models', modelname + '.pkl'))
+        model, transformer = deserialize_model(path)
     except:
-        print(f'Cannot load model {modelname}')
+        print(f'Cannot load model "{path}"')
         return -1
     try:
         dataframe = pd.DataFrame.from_dict(json.loads(data))
