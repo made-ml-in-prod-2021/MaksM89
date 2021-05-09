@@ -1,2 +1,6 @@
 # Hello, world!
-***MaksM89***
+github ***MaksM89***
+
+discord **Maxibon#1812**
+
+$$E = mc^2$$
