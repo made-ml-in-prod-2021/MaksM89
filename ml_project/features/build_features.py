@@ -8,22 +8,51 @@ from sklearn.base import BaseEstimator, TransformerMixin
 
 from ml_project.enities.data_params import Features
 
-class MyScaleTransformer(TransformerMixin, BaseEstimator):
-    """Bad implementation of sklearn StandardScaler"""
+# class MyScaleTransformer(TransformerMixin, BaseEstimator):
+    # """Bad implementation of sklearn StandardScaler"""
 
-    def fit(self, X: np.ndarray):
-        self.mean_ = X.mean(0)
-        self.std_ = X.std(0)
+    # def fit(self, X: np.ndarray):
+        # self.mean_ = X.mean(0)
+        # self.std_ = X.std(0)
+        # return self
+
+    # def transform(self, X: np.ndarray) -> np.ndarray:
+        # return (X - self.mean_) / self.std_
+        
+class MyMeanEncoder(TransformerMixin, BaseEstimator):
+    """https://towardsdatascience.com/why-you-should-try-mean-encoding-17057262cd0"""
+
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        assert isinstance(X, np.ndarray), f'Type must be np.ndarray, but got {type(X)}'
+        assert isinstance(y, np.ndarray), f'Type must be np.ndarray, but got {type(y)}'
+        self.columns_dict = []
+        for i in range(X.shape[1]):
+            uv = np.unique(X[:, i])[None, :]
+            mask = X[:, i].reshape(-1, 1) == uv
+            self.columns_dict.append(
+                {uv[0, j]: y[mask[:, j]].sum() / mask[:, j].sum()\
+                    for j in range(uv.shape[1])}
+                )
         return self
 
-    def transform(self, X: np.ndarray) -> np.ndarray:
-        return (X - self.mean_) / self.std_
+    def transform(self, X: np.ndarray, y=None) -> np.ndarray:
+        assert isinstance(X, np.ndarray), f'Type must be np.ndarray, but got {type(X)}'
+        assert X.shape[1] == len(self.columns_dict), f'Wrong columns count {X.shape[1]}'
+        result = []
+        for i in range(X.shape[1]):
+            mapping = self.columns_dict[i]
+            unknown_value = np.mean(list(mapping.values()))
+            result.append(
+                list(map(lambda x: mapping.get(x, unknown_value), X[:, i]))
+                )
+        return np.array(result).T
 
 def build_categorical_pipeline() -> Pipeline:
     categorical_pipeline = Pipeline(
         [
             ("impute", SimpleImputer(missing_values=np.nan, strategy="most_frequent")),
-            ("ohe", OneHotEncoder(sparse=False, drop='if_binary')),
+            # ("ohe", OneHotEncoder(sparse=False, drop='if_binary')),
+            ("meanEnc", MyMeanEncoder()),
         ]
     )
     return categorical_pipeline
@@ -32,8 +61,8 @@ def build_numerical_pipeline() -> Pipeline:
     num_pipeline = Pipeline(
         [
             ("impute", SimpleImputer(missing_values=np.nan, strategy="mean")),
-            # ("scale", StandardScaler()),
-            ("scale", MyScaleTransformer()),
+            ("scale", StandardScaler()),
+            # ("scale", MyScaleTransformer()),
         ]
     )
     return num_pipeline
@@ -42,6 +71,15 @@ def build_numerical_pipeline() -> Pipeline:
 def make_features(transformer: ColumnTransformer, df: pd.DataFrame) -> np.ndarray:
     return transformer.transform(df)
 
+transformer = ColumnTransformer(
+        [
+            (
+                "categorical_pipeline",
+                build_categorical_pipeline(),
+                ['Sex'],
+            ),
+        ]
+    )
 
 def build_transformer(params: Features) -> ColumnTransformer:
     transformer = ColumnTransformer(

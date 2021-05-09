@@ -23,7 +23,7 @@ pip install -r requirements.txt
 ## Train model:
 ~~~
 set pythonpath=%pythonpath%;%cd%
-python ml_example/train_pipeline.py configs/train_config.yaml
+python ml_project/train_pipeline.py configs/train_config.yml
 ~~~
 ## Get prediction from model.
 

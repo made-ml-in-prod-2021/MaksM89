@@ -17,10 +17,6 @@ from flask import (
 app = Flask(__name__)
 
 from ml_project.data import read_data, split_train_val_data
-from ml_project.enities.inference_pipeline_params import (
-    InferencePipelineParams,
-    read_inference_pipeline_params,
-)
 
 from ml_project.models import (
     deserialize_model,
@@ -74,7 +70,6 @@ def inference_pipeline_command(modelname: str, data: str):
     except:
         print(f'Cannot load model {modelname}')
         return -1
-    logger.info(f'Model {modelname} loaded')
     try:
         dataframe = pd.DataFrame.from_dict(json.loads(data))
     except:
