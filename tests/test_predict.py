@@ -9,15 +9,15 @@ from unittest.mock import patch, MagicMock
 from ml_project.features.build_features import build_transformer, make_features, extract_target
 from ml_project.models import serialize_model
 from ml_project.predict import (
-    app as webapp,
+    # app as webapp,
     inference_pipeline_command,
 )
 from click.testing import CliRunner
 
-@pytest.fixture
-def client():
-    with webapp.test_client() as client:
-        yield client
+# @pytest.fixture
+# def client():
+    # with webapp.test_client() as client:
+        # yield client
         
 @pytest.fixture()
 def data():
@@ -29,10 +29,10 @@ def model_path(mock_os, tmpdir, data, dataset_info):
     modelpath = tmpdir.join('model.pkl')
     mock_os.return_value = modelpath
     train_df = pd.DataFrame.from_dict(json.loads(data))
-    train_target = extract_target(train_df, dataset_info.target_col)
     transformer = build_transformer(dataset_info.features)
-    transformer.fit(train_df, train_target)
+    transformer.fit(train_df)
     train_features = make_features(transformer, train_df)
+    train_target = extract_target(train_df, dataset_info.target_col)
     model = LogisticRegression().fit(train_features, train_target)
     return serialize_model(model, transformer, modelpath)
     

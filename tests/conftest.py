@@ -55,10 +55,9 @@ def dataset_info(categorical_features, numerical_features) -> InputDataset:
         categorical_features=categorical_features,
         numerical_features=numerical_features,
     )
-    yield InputDataset(
+    return InputDataset(
         path=filepath,#os.path.join(curdir, 'train_data_sample.csv'), 
         download_path='',
         features=features,
         target_col='AHD'
         )
-    os.remove(filepath)

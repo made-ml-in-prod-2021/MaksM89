@@ -9,8 +9,7 @@ from sklearn.metrics import accuracy_score, roc_auc_score, f1_score
 
 from ml_project.enities.train_params import TrainingParams
 
-# SklearnModel = Union[LogisticRegression]
-SklearnModel = LogisticRegression
+SklearnModel = Union[LogisticRegression]
 
 def train_model(
     features: np.ndarray, 

@@ -17,17 +17,14 @@ from ml_project.models.model_fit_predict import train_model, serialize_model
 
 
 @pytest.fixture
-def features_and_target() -> Tuple[np.ndarray, np.ndarray]:
-    target = np.array([0, 1, 1, 0, 0, 0])
-    features = np.array([
-        [0.25, 0.25, 0., -0.3],
-        [1., 0.25, 1., 0.],
-        [0.25, 0.5, 1., 0.5],
-        [0.25, 0.25, 0., 0.3],
-        [0., 0.25, 0., 0.2],
-        [0.25, 0.5, 0., 0.4],
-    ])
+def features_and_target(dataset_info) -> Tuple[np.ndarray, np.ndarray]:
+    data = read_data(dataset_info)
+    transformer = build_transformer(dataset_info.features)
+    transformer.fit(data)
+    features = make_features(transformer, data)
+    target = extract_target(data, dataset_info.target_col)
     return features, target
+
 
 def test_train_model(features_and_target: Tuple[np.ndarray, np.ndarray]):
     features, target = features_and_target
