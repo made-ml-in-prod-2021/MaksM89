@@ -1,6 +1,7 @@
 import json
 import logging
 import sys
+import os
 
 import click
 import pandas as pd
@@ -59,7 +60,10 @@ def train_pipeline(training_pipeline_params: TrainingPipelineParams):
         predicts,
         val_target,
     )
-
+    
+    if not os.path.isdir(os.path.dirname(training_pipeline_params.metric_path)):
+        os.mkdir(os.path.dirname(training_pipeline_params.metric_path))
+        
     with open(training_pipeline_params.metric_path, "w") as metric_file:
         json.dump(metrics, metric_file)
     logger.info(f"metrics is {metrics}")

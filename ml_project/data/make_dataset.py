@@ -19,6 +19,9 @@ def read_data(dataset_info: InputDataset) -> pd.DataFrame:
     if not os.path.exists(dataset_info.path):
         responce = requests.get(dataset_info.download_path)
         assert responce.ok, 'Cannot download dataset'
+        # from pdb import set_trace; set_trace();
+        if not os.path.isdir(os.path.dirname(dataset_info.path)):
+            os.mkdir(os.path.dirname(dataset_info.path))
         with open(dataset_info.path, 'wb') as fout:
             fout.write(responce.content)
             # print('Dataset download')
