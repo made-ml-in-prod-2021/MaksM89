@@ -9,7 +9,6 @@ from unittest.mock import patch, MagicMock
 from ml_project.features.build_features import build_transformer, make_features, extract_target
 from ml_project.models import serialize_model
 from ml_project.predict import (
-    app as webapp,
     inference_pipeline_command,
 )
 from click.testing import CliRunner
@@ -39,29 +38,4 @@ def model_path(mock_os, tmpdir, data, dataset_info):
 def test_click_inference(tmpdir, dataset_info, model_path, data, capsys):
     runner = CliRunner()
     result = runner.invoke(inference_pipeline_command, ['model', data]).exit_code
-    # from pdb import set_trace; set_trace()
     assert result == 0, 'Get error in prediction'
-
-# def test_flask_app(client, model_path, data):
-    # responce = client.get('/')
-    # assert 200 == responce.status_code, (
-            # f'Application return bad status code: {responce.status_code}'
-        # )
-    # query = f'/query?modelname=model&data={data}'
-    # responce = client.get(query)
-    # # from pdb import set_trace; set_trace()
-    # assert 200 == responce.status_code, (
-            # f'Application return bad status code: {responce.status_code}'
-        # )
-    # cases = [
-        # f'/query?modelname=model1&data={data}', #bad model
-        # f'/query?modelname=model&data={data[:50]}', #bad query
-        # f'/query?modelname=model&data={data[:22]}' + '}', #not enough columns
-    # ]
-    # for case in cases:
-        # responce = client.get(case)
-        # # from pdb import set_trace; set_trace()
-        # assert 501 == responce.status_code, (
-                # f'Application return bad status code: {responce.status_code}'
-            # )
-    
