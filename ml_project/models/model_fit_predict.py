@@ -9,7 +9,6 @@ from sklearn.metrics import accuracy_score, roc_auc_score, f1_score
 
 from ml_project.enities.train_params import TrainingParams
 
-# SklearnModel = Union[LogisticRegression]
 SklearnModel = LogisticRegression
 
 def train_model(
@@ -17,7 +16,6 @@ def train_model(
     target: np.ndarray, 
     train_params: TrainingParams
 ) -> SklearnModel:
-    # from pdb import set_trace; set_trace()
     if train_params.model_type == "LogisticRegression":
         model = LogisticRegression()
     else:
