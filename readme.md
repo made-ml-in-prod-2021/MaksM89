@@ -75,11 +75,11 @@ IP adress, used in requester.py - 192.168.99.100. Maybe you must change this you
 
 If model not found, server return error 501.
 
-If don't have enough coumns, server return 503.
+If don't have enough columns, server return 503.
 
 How to use: http://\<ip\>:5000/
 
-You can see avaiable models in http://\<ip\s>:5000/models
+You can see avaiable models in http://\<ip\>:5000/models
 
 # Run test:
 ~~~
