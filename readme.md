@@ -46,7 +46,7 @@ flask run
 
 You need to train your model before, serialized it in `/model` dir. Docker image will add this files to container:
 ~~~
-docker build -t webapp:v1 -f online_inference/dockerfile .
+docker build -t webapp:v2 -f online_inference/dockerfile .
 ~~~
 
 ### Load image from github
@@ -65,10 +65,10 @@ docker run --rm -p 5000:5000 --name webapp webapp:v2
 
 and send requests by command:
 ~~~
-python inference/requester.py <model_name> <path/to/csv>
-python inference/requester.py model data/heart.csv
-python inference/requester.py model data/request.csv
-python inference/requester.py model data/request_small.csv
+python online_inference/requester.py <model_name> <path/to/csv>
+python online_inference/requester.py model data/heart.csv
+python online_inference/requester.py model data/request.csv
+python online_inference/requester.py model data/request_small.csv
 ~~~
 
 IP adress, used in requester.py - 192.168.99.100. Maybe you must change this yourself.
