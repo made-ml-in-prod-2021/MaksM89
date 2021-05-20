@@ -46,7 +46,7 @@ flask run
 
 You need to train your model before, serialized it in `/model` dir. Docker image will add this files to container:
 ~~~
-docker build -t webapp:v1 -f online_inference/dockerfile .
+docker build -t webapp:v2 -f online_inference/dockerfile .
 ~~~
 
 ### Load image from github
@@ -65,10 +65,10 @@ docker run --rm -p 5000:5000 --name webapp webapp:v2
 
 and send requests by command:
 ~~~
-python inference/requester.py <model_name> <path/to/csv>
-python inference/requester.py model data/heart.csv
-python inference/requester.py model data/request.csv
-python inference/requester.py model data/request_small.csv
+python online_inference/requester.py <model_name> <path/to/csv>
+python online_inference/requester.py model data/heart.csv
+python online_inference/requester.py model data/request.csv
+python online_inference/requester.py model data/request_small.csv
 ~~~
 
 IP adress, used in requester.py - 192.168.99.100. Maybe you must change this yourself.
@@ -123,7 +123,7 @@ Project Organization
 ## hw2
 
 На мой взгляд, сделано всё. Сначала делал образ на основе python:3.6, получил 1.2 Gb. 
-Переделал на python:3.6-slim - 476. Какие-то манипуляции с файлами не дадут существенного улучшения.
+Переделал на python:3.6-slim - 476Mb. Какие-то манипуляции с файлами не дадут существенного улучшения.
 Образы опубликованы на гитхабе в том же проекте.
 
 **Хочу баллов** = 15
