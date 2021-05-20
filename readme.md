@@ -51,16 +51,16 @@ docker build -t webapp:v1 -f online_inference/dockerfile .
 
 ### Load image from github
 
-You can load image form github with my model (1.2 GB):
+You can load image form github with my model (476 MB):
 ~~~
-docker pull docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v1
-docker tag docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v1 webapp:v1
-docker rmi docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v1
+docker pull docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v2
+docker tag docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v2 webapp:v2
+docker rmi docker.pkg.github.com/made-ml-in-prod-2021/maksm89/webapp:v2
 ~~~
 
 ## Than can run inference:
 ~~~
-docker run -rm -p 5000:5000 --name webapp webapp:v1
+docker run --rm -p 5000:5000 --name webapp webapp:v2
 ~~~
 
 and send requests by command:
@@ -122,7 +122,8 @@ Project Organization
 
 ## hw2
 
-На мой взгляд, сделано всё, кроме оптимизации. Очень большой образ. Нужно взять за основу что-нибудь полегче.
-Образ опубликован на гитхабе в том же проекте.
+На мой взгляд, сделано всё. Сначала делал образ на основе python:3.6, получил 1.2 Gb. 
+Переделал на python:3.6-slim - 476. Какие-то манипуляции с файлами не дадут существенного улучшения.
+Образы опубликованы на гитхабе в том же проекте.
 
 **Хочу баллов** = 15
