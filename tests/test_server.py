@@ -8,7 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from unittest.mock import patch, MagicMock
 from ml_project.features.build_features import build_transformer, make_features, extract_target
 from ml_project.models import serialize_model
-from inference.server import (
+from online_inference.server import (
     app as webapp,
 )
 
