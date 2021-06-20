@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+    name: flaskapp
+    labels:
+        app: replicaflask
+spec:
+    replicas: 5
+    selector:
+        matchLabels:
+            app: flaskappr
+    template:
+        metadata:
+            name: flaskapp
+            labels:
+                app: flaskappr
+        spec:
+            containers:
+                - image: maxmax89/webapp:v2
+                  name: flaskapp
+                  ports:
+                    - containerPort: 5000

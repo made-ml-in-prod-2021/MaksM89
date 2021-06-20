@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+    name: flaskapp
+    labels:
+        app: deploymentflask
+spec:
+    replicas: 3
+    selector:
+        matchLabels:
+            app: flaskappd
+    strategy:
+        rollingUpdate: #Recreate
+            maxSurge: 1
+            maxUnavailable: 1
+        type: RollingUpdate
+    template:
+        metadata:
+            name: flaskapp
+            labels:
+                app: flaskappd
+        spec:
+            containers:
+                - image: maxmax89/webapp:v1
+                  name: flaskapp
+                  ports:
+                      - name: liveness-port
+                        containerPort: 5000
+                        hostPort: 5000
+                  command: ["/bin/bash"]
+                  args: ["-c", "sleep 20; gunicorn --bind 0.0.0.0:5000 server:app;"]
+                      
+                  livenessProbe:
+                    httpGet:
+                      path: /
+                      port: liveness-port
+                    failureThreshold: 1
+                    periodSeconds: 10
+                    
+                  readinessProbe:
+                    httpGet:
+                      path: /
+                      port: liveness-port
+                    initialDelaySeconds: 5
+                    periodSeconds: 5
+
+                  startupProbe:
+                    httpGet:
+                      path: /
+                      port: liveness-port
+                    failureThreshold: 5
+                    periodSeconds: 5
