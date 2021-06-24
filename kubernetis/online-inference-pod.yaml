@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+    name: flaskapp
+    labels:
+        app: flaskapp
+spec:
+    containers:
+        - image: maxmax89/webapp:v2
+          name: flaskapp
+          ports:
+              - containerPort: 5000
